@@ -30,3 +30,11 @@ for a = [2 -2 5 -5 10 -10]
     disp(['Functional value ', num2str(func(x + lambdaNeg*dirNeg)), ' after ', num2str(itersNeg), ' iterations; neg'])
     disp(['Lambda was ', num2str(lambdaNeg)])
 end
+
+%% Testing the algorithm itself
+
+[t, y] = data1;
+start = [1;2;3;4];
+tol = 0.1;
+[x, f, steps] = gaussnewton(@phi2, t, y, start, tol, 1, 0, 0);
+

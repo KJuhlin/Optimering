@@ -1,12 +1,12 @@
-function [lambda, n_iter] = linesearch_armijo(func, x, dir, tol)
+function [lambda, n_iter] = linesearch_armijo(func, x, dir, f_0, tol)
     if nargin < 4
+        f_0 = func(x);
         tol = 1e-6;
     end
     epsilon = 1e-4;
     alpha = 2;
     n_iter = 1;
     lambda = 1;
-    f_0 = func(x);
 
     df_0 = (func(x + dir*1e-4) - func(x - dir*1e-4))/(2*1e-4);
     while true
