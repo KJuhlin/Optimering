@@ -15,7 +15,7 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
     %Setup for the differentiation algorithm
     J = zeros(rDim, xDim);
     basis = eye(xDim);
-    diffTol = 1e-4;
+    diffTol = 1e-6;
     
     %algorithm
     while crit > tol
@@ -29,7 +29,7 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         numSteps
         dir = (J'*J)\(-J'*phiValCurr);
         if (use_linesearch)
-            [lambda, ~] = linesearch_armijo(phiLinesearch, xCurr, dir, phiValCurr);
+            [lambda, ~] = linesearch_armijo(phiLinesearch, xCurr, dir);
         else
             lambda = 1;
         end
@@ -50,6 +50,6 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         Plotout()
     end
     x = xCurr;
-    funcVal = phiValCurr;
+    funcVal = phiLinesearch(x);
 end
 

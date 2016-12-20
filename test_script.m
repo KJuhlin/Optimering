@@ -32,9 +32,14 @@ for a = [2 -2 5 -5 10 -10]
 end
 
 %% Testing the algorithm itself
-
-[t, y] = data1;
+[t, y] = data2;
 start = [1;2;3;4];
 tol = 0.1;
-[x, f, steps] = gaussnewton(@phi2, t, y, start, tol, 1, 0, 0);
+[x, f, steps] = gaussnewton(@phi2, t, y, start, tol, 0, 0, 0);
 
+
+%%
+[t, y] = data2;
+start = [1;-2.6];
+tol = 0.0001;
+[x, f, steps] = gaussnewton(@phi1, t, y, start, tol, 1, 0, 0);
