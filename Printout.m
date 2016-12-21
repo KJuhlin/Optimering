@@ -1,64 +1,31 @@
-%% Loads data
+function Printout(iter,x,stepSize,f,maxAbsRes,grad,lsIter,lambda,dGrad)
+%Prints some information for the optimization method
 
-f = @(x) 14*exp(- x*1.7);
-[t,y] = data2;
-  
+    %Local strings
+    s1 = ' ';
+    s2 = '  ';
+    s3 = '   ';
+    s4 = '    ';
+    s5 = '     ';
+    iterStr = [s1 'iter'];
+    xStr = [s4 'x' s1];
+    stepsizeStr = [s3 'step size'];
+    fStr = [s2 'f(x)' s1];
+    maxStr = [s2 'max(abs(r))'];
+    normStr = [s2 'norm(grad)'];
+    lsStr = [s2 'ls iters'];
+    lambdaStr = [s2 'lambda'];
+    gradStr = [s2 'grad’*d//norm(d)'];
 
-gaussnewton(f,t,y,[1,1,1,1],10^-6,0,1,1)
+    %Header
+    fprintf('%s %s %s %s %s %s %s %s %s %s %s ', iterStr,xStr,stepsizeStr,fStr,maxStr,normStr,lsStr,lambdaStr,gradStr);
 
-x1=2;
-x2=2;
-x3=3;
-x4=4;
-iter=100;
-step_size = 10;
+    %Vauels, only prints first x-coord
+    fprintf('\n%4.0f   %4.4f    %3.4f    %4.2f     %4.4f        %4.4f     %4.0f       %4.4f      %4.4f \n' ...
+            ,iter,x(1),stepSize,f, maxAbsRes, grad,lsIter,lambda,dGrad );
+    %Prints the remaining x-coords
+    for i=2:length(x);
+        fprintf(' %s %3.4f \n',s5,x(i));
+    end
 
-%%
-
-    fprintf('iter\tx \t\tstep \t\tsize \tf(x) \tmax(abs(r)) \tnorm(grad) \tls iters \n');
-    fprintf('%2.0f \t%3.4f \t%12.4f                         \n  %12.4f \n  %12.4f \n  %12.4f\n',iter,x1,x2,x3,x4,step_size);
-    
-    gaussnewton(phi,t,y,start,tol,0,1,1)
-    
-    %%
-    
-%Prints the optimal parameter values (x_i i=1,2,3,4) and the total sum of
-%the residuals
-
- f = @(x) 14*exp(-x.*1.7);
-
-if(printout)
-    % iter x step size f(x) max(abs(r)) norm(grad) ls iters lambda grad’*d/norm(d)
-x1=2;
-x2=2;
-x3=3;
-x4=4;
-iter=100;
-step_size = 10;
-
-
-    fprintf('iter\tx \t\tstep \t\tsize \tf(x) \tmax(abs(r)) \tnorm(grad) \tls iters \n');
-    fprintf('%2.0f \t%3.4f \t%12.4f                         \n  %12.4f \n  %12.4f \n  %12.4f\n',iter,x1,x2,x3,x4,step_size);
-end
-
-
-
-%Plots the function alongside the datapoints, and the residual
-if(plotout)
-    %Function and datapoints
-    figure(1);
-    plot(t,y)
-    hold on
-    plot(t,f(t),'r')
-    hold off
-    title('Function plot')
-    xlabel('t')
-    legend('Datapoints','F(t)')
-    
-    %The residual
-    figure(2)
-    plot(t,y-f(t))
-    title('Residual plot') 
-    xlabel('t')
-    
 end
