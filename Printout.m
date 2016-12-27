@@ -15,14 +15,14 @@ function Printout(iter,x,stepSize,f,maxAbsRes,grad,lsIter,lambda,dGrad)
     normStr = [s2 'norm(grad)'];
     lsStr = [s2 'ls iters'];
     lambdaStr = [s2 'lambda'];
-    gradStr = [s2 'grad’*d//norm(d)'];
+    gradStr = [s2 'gradï¿½*d//norm(d)'];
 
     %Header
     fprintf('%s %s %s %s %s %s %s %s %s %s %s ', iterStr,xStr,stepsizeStr,fStr,maxStr,normStr,lsStr,lambdaStr,gradStr);
 
     %Vauels, only prints first x-coord
-    fprintf('\n%4.0f   %4.4f    %3.4f    %4.2f     %4.4f        %4.4f     %4.0f       %4.4f      %4.4f \n' ...
-            ,iter,x(1),stepSize,f, maxAbsRes, grad,lsIter,lambda,dGrad );
+    fprintf('\n%4.0f   %4.4f    %3.4f    %4.2f     %4.4f        %4.4f     %4.0f       %4.4f      %4.4f \n', ...
+            iter,x(1),stepSize,f, maxAbsRes, grad,lsIter,lambda,dGrad );
     %Prints the remaining x-coords
     for i=2:length(x);
         fprintf(' %s %3.4f \n',s5,x(i));

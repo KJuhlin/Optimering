@@ -26,12 +26,12 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         end
         
         gradient = 2*J'*phiValCurr;
-        numSteps
         dir = (J'*J)\(-J'*phiValCurr);
         if (use_linesearch)
-            [lambda, ~] = linesearch_armijo(phiLinesearch, xCurr, dir);
+            [lambda, lsSteps] = linesearch_armijo(phiLinesearch, xCurr, dir);
         else
             lambda = 1;
+            lsSteps = 0;
         end
         xCurr = xCurr + lambda*dir;
         
@@ -42,12 +42,15 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         numSteps = numSteps + 1;
         % print out
         if (printout)
-            Printout()
+            stepLen = norm(lambda*dir);
+            dGrad = gradient' * dir/norm(dir);
+            Printout(numSteps, xCurr, stepLen, phiLinesearch(xCurr), max(abs(phiValCurr)), crit, lsSteps, lambda, dGrad)
         end
     end
     % clean up, plotout
     if (plotout)
-        Plotout()
+        plotFunc = @(t) phi(xCurr,t);
+        Plotout(plotFunc, t, y);
     end
     x = xCurr;
     funcVal = phiLinesearch(x);
