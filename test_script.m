@@ -42,5 +42,5 @@ tol = 0.001;
 %% % Might want a different stopping criterion. Implementing on different branch.
 [t, y] = data2;
 start = [1;-2.6];
-tol = 0.001;
-[x, f, steps] = gaussnewton(@phi1, t, y, start, tol, 1, 1, 0);
+tol = 0.00001;
+[x, f, steps] = gaussnewton(@phi1, t, y, start, tol, 1, 1, 1);
