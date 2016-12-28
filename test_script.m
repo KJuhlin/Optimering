@@ -32,14 +32,15 @@ for a = [2 -2 5 -5 10 -10]
 end
 
 %% Testing the algorithm itself
+% gaussnewton(function, tParams, yParams, startX, tol, linesearch, print, plot)
 [t, y] = data2;
 start = [1;2;3;4];
 tol = 0.1;
 [x, f, steps] = gaussnewton(@phi2, t, y, start, tol, 1, 1, 1);
 
 
-%%
+%% % Might want a different stopping criterion. Implementing on different branch.
 [t, y] = data2;
 start = [1;-2.6];
-tol = 0.0001;
-[x, f, steps] = gaussnewton(@phi1, t, y, start, tol, 1, 0, 0);
+tol = 0.001;
+[x, f, steps] = gaussnewton(@phi1, t, y, start, tol, 1, 1, 0);

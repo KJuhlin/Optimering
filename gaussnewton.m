@@ -1,5 +1,8 @@
-function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,printout,plotout)
+function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,printout,plotout,maxSteps)
     %setup
+    if nargin < 9
+        maxSteps = 250;
+    end
     
     xDim = length(start);
     rDim = length(y);
@@ -45,6 +48,12 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
             stepLen = norm(lambda*dir);
             dGrad = gradient' * dir/norm(dir);
             Printout(numSteps, xCurr, stepLen, phiLinesearch(xCurr), max(abs(phiValCurr)), crit, lsSteps, lambda, dGrad)
+        end
+        
+        %Check whether the maximum number of steps has been exceeded
+        if numSteps > maxSteps
+            disp(['Max number of iterations reached; Current x values are ', num2str(xCurr'), ', with functional value ', num2str(phiLinesearch(xCurr))]);
+            error('Exiting function.')
         end
     end
     % clean up, plotout
