@@ -39,15 +39,15 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         xCurr = xCurr + lambda*dir;
         
         %Check stopping criterion
-        crit = norm(gradient);
+        crit = norm(dir*lambda);
         %Update step count and so on
         phiValCurr = phiNew(xCurr);
         numSteps = numSteps + 1;
         % print out
         if (printout)
-            stepLen = norm(lambda*dir);
+            %stepLen = norm(lambda*dir);
             dGrad = gradient' * dir/norm(dir);
-            Printout(numSteps, xCurr, stepLen, phiLinesearch(xCurr), max(abs(phiValCurr)), crit, lsSteps, lambda, dGrad)
+            Printout(numSteps, xCurr, crit, phiLinesearch(xCurr), max(abs(phiValCurr)), norm(gradient), lsSteps, lambda, dGrad)
         end
         
         %Check whether the maximum number of steps has been exceeded

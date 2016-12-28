@@ -35,7 +35,7 @@ end
 % gaussnewton(function, tParams, yParams, startX, tol, linesearch, print, plot)
 [t, y] = data2;
 start = [1;2;3;4];
-tol = 0.1;
+tol = 0.001;
 [x, f, steps] = gaussnewton(@phi2, t, y, start, tol, 1, 1, 1);
 
 
