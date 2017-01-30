@@ -25,7 +25,7 @@ function [lambda, n_iter] = linesearch_armijo(func, x, dir, tol)
             break
         end
         n_iter = n_iter + 1;
-        if (n_iter > 10)
+        if (n_iter > 100)
             disp('WARNING, line search: Lambda set to 0, as max number of iterations were reached.')
             lambda = 0;
             return;

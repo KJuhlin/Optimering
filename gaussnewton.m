@@ -29,7 +29,30 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         end
         
         gradient = 2*J'*phiValCurr;
-        dir = (J'*J)\(-J'*phiValCurr);
+        
+        hessianInit = 2*(J'*J);
+        
+        epsilon = 0.2;
+        hessianEst = hessianInit;
+        
+        while true
+            try
+                triang = chol(hessianEst);
+                break;
+            catch error
+                if strcmp(error.identifier, 'MATLAB:posdef')
+                    hessianEst = hessianInit + epsilon * eye(size(hessianInit));
+                    epsilon = epsilon * 4;
+                else
+                    rethrow(error);
+                end
+            end
+        end
+        
+        rightVector = gradient;
+        d2 = triang'\rightVector;
+        
+        dir = triang\d2;
         if (use_linesearch)
             [lambda, lsSteps] = linesearch_armijo(phiLinesearch, xCurr, dir);
         else
