@@ -39,17 +39,17 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
             try
                 triang = chol(hessianEst);
                 break;
-            catch error
-                if strcmp(error.identifier, 'MATLAB:posdef')
+            catch exception
+                if strcmp(exception.identifier, 'MATLAB:posdef')
                     hessianEst = hessianInit + epsilon * eye(size(hessianInit));
                     epsilon = epsilon * 4;
                 else
-                    rethrow(error);
+                    rethrow(exception);
                 end
             end
         end
         
-        rightVector = gradient;
+        rightVector = -gradient;
         d2 = triang'\rightVector;
         
         dir = triang\d2;
@@ -66,6 +66,10 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         crit = stepLen/norm(xCurr);
         %Update step count and so on
         phiValCurr = phiNew(xCurr);
+        if (sum(isnan(phiValCurr) + isinf(phiValCurr)) > 0)
+            error('Algorithm did not converge; please try a different initial value')
+        end
+        
         numSteps = numSteps + 1;
         % print out
         if (printout)
@@ -77,7 +81,7 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         %Check whether the maximum number of steps has been exceeded
         if numSteps > maxSteps
             disp(['Max number of iterations reached; Current x values are ', num2str(xCurr'), ', with functional value ', num2str(phiLinesearch(xCurr))]);
-            error('Exiting function.')
+            exception('Exiting function.')
         end
     end
     % clean up, plotout
