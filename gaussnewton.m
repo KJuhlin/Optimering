@@ -35,21 +35,20 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         epsilon = 0.2;
         hessianEst = hessianInit;
         
-        while true
-            try
-                triang = chol(hessianEst);
-                break;
-            catch error
-                if strcmp(error.identifier, 'MATLAB:posdef')
-                    hessianEst = hessianInit + epsilon * eye(size(hessianInit));
-                    epsilon = epsilon * 4;
-                else
-                    rethrow(error);
-                end
+        while cond(hessianEst) > 100
+            hessianEst = hessianInit + epsilon * eye(size(hessianInit));
+            epsilon = epsilon * 4;
+        end
+        
+        try                         % This try/catch block should never encounter errors; the check above prevents it.
+            triang = chol(hessianEst);
+        catch error
+            if ~strcmp(error.identifier, 'MATLAB:posdef')
+                rethrow(error);
             end
         end
         
-        rightVector = gradient;
+        rightVector = -gradient;
         d2 = triang'\rightVector;
         
         dir = triang\d2;
