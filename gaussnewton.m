@@ -42,9 +42,9 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         
         try                         % This try/catch block should never encounter errors; the check above prevents it.
             triang = chol(hessianEst);
-        catch error
-            if ~strcmp(error.identifier, 'MATLAB:posdef')
-                rethrow(error);
+        catch exception
+            if ~strcmp(exception.identifier, 'MATLAB:posdef')
+                rethrow(exception);
             end
         end
         
@@ -67,6 +67,10 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         phiValCurr = phiNew(xCurr);
         numSteps = numSteps + 1;
         % print out
+        if (sum(isinf(phiValCurr) + isnan(phiValCurr)) > 0)
+            error('Algorithm did not converge, please try different initial values')
+        end
+        
         if (printout)
             %stepLen = norm(lambda*dir);
             dGrad = gradient' * dir/norm(dir);

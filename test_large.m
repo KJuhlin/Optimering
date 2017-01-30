@@ -42,8 +42,12 @@ fprintf(ofile, '%10s %10s %12s %8s %8s %10s\n', 'x1_init', 'x2_init', 'Iteration
 for x1 = x1_inits
     for x2 = x2_inits
         x_init = [x1; x2];
-        [x_res, f_val, n_steps] = gaussnewton(@phi1, t1, y1, x_init, tol, use_linesearch, 0, 0);
-        fprintf(ofile, '%10d %10d %12d %8.5f %8.5f %10.5f\n', x1, x2, n_steps, x_res(1), x_res(2), f_val);
+        try
+            [x_res, f_val, n_steps] = gaussnewton(@phi1, t1, y1, x_init, tol, use_linesearch, 0, 0);
+            fprintf(ofile, '%10d %10d %12d %8.5f %8.5f %10.5f\n', x1, x2, n_steps, x_res(1), x_res(2), f_val);
+        catch exception
+            fprintf(ofile, 'No convergence')
+        end
         if (f_val < data1_phi1_limit)
             convergent = convergent + 1;
         end
@@ -67,9 +71,13 @@ for x1 = x1_inits
         for x3 = x3_inits
             for x4 = x4_inits
                 x_init = [x1; x2; x3; x4];
-                [x_res, f_val, n_steps] = gaussnewton(@phi2, t1, y1, x_init, tol, use_linesearch, 0, 0);
-                fprintf(ofile, '%10d %10d %10d %10d %12d %8.5f %8.5f %8.5f %8.5f %10.5f\n', ...
-                    x1, x2, x3, x4, n_steps, x_res(1), x_res(2), x_res(3), x_res(4), f_val);
+                try
+                    [x_res, f_val, n_steps] = gaussnewton(@phi2, t1, y1, x_init, tol, use_linesearch, 0, 0);
+                    fprintf(ofile, '%10d %10d %10d %10d %12d %8.5f %8.5f %8.5f %8.5f %10.5f\n', ...
+                        x1, x2, x3, x4, n_steps, x_res(1), x_res(2), x_res(3), x_res(4), f_val);
+                catch exception
+                    fprintf(ofile, 'No convergence\n');
+                end
                 if (f_val < data1_phi2_limit)
                     convergent = convergent + 1;
                 end
@@ -96,8 +104,12 @@ fprintf(ofile, '%10s %10s %12s %8s %8s %10s\n', 'x1_init', 'x2_init', 'Iteration
 for x1 = x1_inits
     for x2 = x2_inits
         x_init = [x1; x2];
-        [x_res, f_val, n_steps] = gaussnewton(@phi1, t1, y1, x_init, tol, use_linesearch, 0, 0);
-        fprintf(ofile, '%10d %10d %12d %8.5f %8.5f %10.5f\n', x1, x2, n_steps, x_res(1), x_res(2), f_val);
+        try
+            [x_res, f_val, n_steps] = gaussnewton(@phi1, t1, y1, x_init, tol, use_linesearch, 0, 0);
+            fprintf(ofile, '%10d %10d %12d %8.5f %8.5f %10.5f\n', x1, x2, n_steps, x_res(1), x_res(2), f_val);
+        catch exception
+            fprintf(ofile, 'No convergence\n');
+        end
         if (f_val < data1_phi1_limit)
             convergent = convergent + 1;
         end
@@ -123,13 +135,11 @@ for x1 = x1_inits
                 x_init = [x1; x2; x3; x4];
                 try
                     [x_res, f_val, n_steps] = gaussnewton(@phi2, t1, y1, x_init, tol, use_linesearch, 0, 0);
-                catch err
-                    fprintf(ofile, 'Error here!\n');
-                    linesearch_fails = linesearch_fails + 1;
-                    continue;
+                    fprintf(ofile, '%10d %10d %10d %10d %12d %8.5f %8.5f %8.5f %8.5f %10.5f\n', ...
+                        x1, x2, x3, x4, n_steps, x_res(1), x_res(2), x_res(3), x_res(4), f_val);
+                catch exception
+                    fprintf(ofile, 'No convergence\n');
                 end
-                fprintf(ofile, '%10d %10d %10d %10d %12d %8.5f %8.5f %8.5f %8.5f %10.5f\n', ...
-                    x1, x2, x3, x4, n_steps, x_res(1), x_res(2), x_res(3), x_res(4), f_val);
                 if (f_val < data1_phi2_limit)
                     convergent = convergent + 1;
                 end
@@ -158,8 +168,12 @@ fprintf(ofile, '%10s %10s %12s %8s %8s %10s\n', ...
 for x1 = x1_inits
     for x2 = x2_inits
         x_init = [x1; x2];
-        [x_res, f_val, n_steps] = gaussnewton(@phi1, t2, y2, x_init, tol, use_linesearch, 0, 0);
-        fprintf(ofile, '%10d %10d %12d %8.5f %8.5f %10.5f\n', x1, x2, n_steps, x_res(1), x_res(2), f_val);
+        try
+            [x_res, f_val, n_steps] = gaussnewton(@phi1, t2, y2, x_init, tol, use_linesearch, 0, 0);
+            fprintf(ofile, '%10d %10d %12d %8.5f %8.5f %10.5f\n', x1, x2, n_steps, x_res(1), x_res(2), f_val);
+        catch exception
+            fprintf(ofile, 'No convergence\n');
+        end
         if (f_val < data2_phi1_limit)
             convergent = convergent + 1;
         end
@@ -183,9 +197,13 @@ for x1 = x1_inits
         for x3 = x3_inits
             for x4 = x4_inits
                 x_init = [x1; x2; x3; x4];
-                [x_res, f_val, n_steps] = gaussnewton(@phi2, t2, y2, x_init, tol, use_linesearch, 0, 0);
-                fprintf(ofile, '%10d %10d %10d %10d %12d %8.5f %8.5f %8.5f %8.5f %10.5f\n', ...
-                    x1, x2, x3, x4, n_steps, x_res(1), x_res(2), x_res(3), x_res(4), f_val);
+                try
+                    [x_res, f_val, n_steps] = gaussnewton(@phi2, t2, y2, x_init, tol, use_linesearch, 0, 0);
+                    fprintf(ofile, '%10d %10d %10d %10d %12d %8.5f %8.5f %8.5f %8.5f %10.5f\n', ...
+                        x1, x2, x3, x4, n_steps, x_res(1), x_res(2), x_res(3), x_res(4), f_val);
+                catch exception
+                    fprintf(ofile, 'No convergence\n');
+                end
                 if (f_val < data2_phi2_limit)
                     convergent = convergent + 1;
                 end
@@ -212,8 +230,12 @@ fprintf(ofile, '%10s %10s %12s %8s %8s %10s\n', 'x1_init', 'x2_init', 'Iteration
 for x1 = x1_inits
     for x2 = x2_inits
         x_init = [x1; x2];
-        [x_res, f_val, n_steps] = gaussnewton(@phi1, t2, y2, x_init, tol, use_linesearch, 0, 0);
-        fprintf(ofile, '%10d %10d %12d %8.5f %8.5f %10.5f\n', x1, x2, n_steps, x_res(1), x_res(2), f_val);
+        try
+            [x_res, f_val, n_steps] = gaussnewton(@phi1, t2, y2, x_init, tol, use_linesearch, 0, 0);
+            fprintf(ofile, '%10d %10d %12d %8.5f %8.5f %10.5f\n', x1, x2, n_steps, x_res(1), x_res(2), f_val);
+        catch exception
+            fprintf(ofile, 'No convergence\n');
+        end
         if (f_val < data2_phi1_limit)
             convergent = convergent + 1;
         end
@@ -239,13 +261,12 @@ for x1 = x1_inits
                 x_init = [x1; x2; x3; x4];
                 try
                     [x_res, f_val, n_steps] = gaussnewton(@phi2, t2, y2, x_init, tol, use_linesearch, 0, 0);
-                catch err
-                    fprintf(ofile, 'Error here!\n');
-                    linesearch_fails = linesearch_fails + 1;
-                    continue;
+                    fprintf(ofile, '%10d %10d %10d %10d %12d %8.5f %8.5f %8.5f %8.5f %10.5f\n', ...
+                        x1, x2, x3, x4, n_steps, x_res(1), x_res(2), x_res(3), x_res(4), f_val);
+                catch exception
+                    fprintf(ofile, 'No convergence\n');
                 end
-                fprintf(ofile, '%10d %10d %10d %10d %12d %8.5f %8.5f %8.5f %8.5f %10.5f\n', ...
-                    x1, x2, x3, x4, n_steps, x_res(1), x_res(2), x_res(3), x_res(4), f_val);
+                
                 if (f_val < data2_phi2_limit)
                     convergent = convergent + 1;
                 end
@@ -256,8 +277,6 @@ for x1 = x1_inits
 end
 
 fprintf(ofile, '%d out of %d runs converged\n\n', convergent, total);
-
-fprintf(ofile, '%d linesearch failures encountered in 10200 runs\n', linesearch_fails);
 
 fclose(ofile);
 
