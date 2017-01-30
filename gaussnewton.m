@@ -32,10 +32,10 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         
         hessianInit = 2*(J'*J);
         
-        epsilon = 0.2;
+        epsilon = 1;
         hessianEst = hessianInit;
         
-        while cond(hessianEst) > 100
+        while cond(hessianEst) > 1000
             hessianEst = hessianInit + epsilon * eye(size(hessianInit));
             epsilon = epsilon * 4;
         end
@@ -78,10 +78,11 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         end
         
         %Check whether the maximum number of steps has been exceeded
-        if numSteps > maxSteps
-            disp(['Max number of iterations reached; Current x values are ', num2str(xCurr'), ', with functional value ', num2str(phiLinesearch(xCurr))]);
-            error('Exiting function.')
-        end
+%         if numSteps > 250
+%             disp(['Latest step length was ', num2str(stepLen), ' with lambda ', num2str(lambda)])
+%             disp(['Max number of iterations reached; Current x values are ', num2str(xCurr'), ', with functional value ', num2str(phiLinesearch(xCurr))]);
+%             error('Exiting function.')
+%         end
     end
     % clean up, plotout
     if (plotout)

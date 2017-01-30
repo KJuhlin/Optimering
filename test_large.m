@@ -9,7 +9,7 @@ ofile = fopen('testresults/res_large.txt', 'w');
 [t1, y1] = data1;
 [t2, y2] = data2;
 
-tol = 1e-4;
+tol = 1e-6;
 
 % phi1: x1 * exp(-x2 * t)
 
