@@ -13,7 +13,7 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
     xCurr = start;
     phiValCurr = phiNew(xCurr);
     
-    crit = realmax;
+    crit = ones(1,5);
     numSteps = 0;
     %Setup for the differentiation algorithm
     J = zeros(rDim, xDim);
@@ -21,7 +21,7 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
     diffTol = 1e-6;
     
     %algorithm
-    while crit > tol
+    while sum(abs(crit)) > tol
         % Calculate Jacobian J and the gradient (for the stopping
         % criterion)
         for dim = 1:xDim
@@ -62,7 +62,7 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         
         %Check stopping criterion
         stepLen = norm(dir*lambda);
-        crit = stepLen/norm(xCurr);
+        crit = [stepLen crit(1:4)];
         %Update step count and so on
         phiValCurr = phiNew(xCurr);
         numSteps = numSteps + 1;

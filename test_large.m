@@ -9,7 +9,7 @@ ofile = fopen('testresults/res_large.txt', 'w');
 [t1, y1] = data1;
 [t2, y2] = data2;
 
-tol = 1e-6;
+tol = 1e-2;
 
 % phi1: x1 * exp(-x2 * t)
 
@@ -17,6 +17,11 @@ x1_inits = 1:10;
 x2_inits = 1:5;
 x3_inits = 1:10;
 x4_inits = 1:5;
+
+% x1_inits = [1 5 10];
+% x2_inits = [2 4];
+% x3_inits = [1 5 10];
+% x4_inits = [2 4];
 
 use_linesearch = 0;
 
