@@ -34,9 +34,9 @@ end
 %% Testing the algorithm itself
 % gaussnewton(function, tParams, yParams, startX, tol, linesearch, print, plot)
 [t, y] = data2;
-start = [5;4];
-tol = 1e-4;
-[x, f, steps] = gaussnewton(@phi1, t, y, start, tol, 1, 1, 1);
+start = [5;4;1;2];
+tol = 1e-8;
+[x, f, steps] = gaussnewton(@phi2, t, y, start, tol, 1, 1, 1);
 
 
 %% % Might want a different stopping criterion. Implementing on different branch.

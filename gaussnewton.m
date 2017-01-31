@@ -1,8 +1,5 @@
-function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,printout,plotout,maxSteps)
+function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,printout,plotout)
     %setup
-    if nargin < 9
-        maxSteps = 250;
-    end
     
     xDim = length(start);
     rDim = length(y);
@@ -18,7 +15,7 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
     %Setup for the differentiation algorithm
     J = zeros(rDim, xDim);
     basis = eye(xDim);
-    diffTol = 1e-6;
+    diffTol = (1e-1)*tol;
     
     %algorithm
     while sum(abs(crit)) > tol
@@ -53,7 +50,7 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         
         dir = triang\d2;
         if (use_linesearch)
-            [lambda, lsSteps] = linesearch_armijo(phiLinesearch, xCurr, dir);
+            [lambda, lsSteps] = linesearch_armijo(phiLinesearch, xCurr, dir, tol);
         else
             lambda = 1;
             lsSteps = 0;
@@ -68,7 +65,7 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
         numSteps = numSteps + 1;
         % print out
         if (sum(isinf(phiValCurr) + isnan(phiValCurr)) > 0)
-            error('Algorithm did not converge, please try different initial values')
+            error('Algorithm did not converge, please try different initial values or a larger tolerance.')
         end
         
         if (printout)
@@ -76,13 +73,7 @@ function [x, funcVal, numSteps] =  gaussnewton(phi,t,y,start,tol,use_linesearch,
             dGrad = gradient' * dir/norm(dir);
             Printout(numSteps, xCurr, stepLen, phiLinesearch(xCurr), max(abs(phiValCurr)), norm(gradient), lsSteps, lambda, dGrad)
         end
-        
-        %Check whether the maximum number of steps has been exceeded
-%         if numSteps > 250
-%             disp(['Latest step length was ', num2str(stepLen), ' with lambda ', num2str(lambda)])
-%             disp(['Max number of iterations reached; Current x values are ', num2str(xCurr'), ', with functional value ', num2str(phiLinesearch(xCurr))]);
-%             error('Exiting function.')
-%         end
+
     end
     % clean up, plotout
     if (plotout)
